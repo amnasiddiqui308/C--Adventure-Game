@@ -2,9 +2,36 @@
 #include<string>
 using namespace std;
 
-void crossRoad(bool& hasKilledMonster, int& playerHP);
+void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount);
 
-void south(bool& hasKilledMonster, int& playerHP) {
+void north(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
+	char choice = 0;
+
+	if (riversideCount <= 0) {
+		cout << "The river has dried up. No water left to drink." << endl;
+	}
+
+	else {
+		cout << "There is a River\nYou drink water and rest at the riverside." << endl;
+		cout << "Your HP is recovered by 2." << endl;
+		cout << "------------------------------------------------------------------------" << endl;
+		playerHP += 2;
+		riversideCount -= 1;
+	}
+
+	cout << "Press any key to continue" << endl;
+	cout << "PRESS 0 TO EXIT" << endl;
+
+	cin >> choice;
+	//cout << choice << endl;
+
+	if (choice == '0')
+		exit(0);
+	else
+		crossRoad(hasKilledMonster, playerHP, riversideCount);
+}
+
+void south(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 	int choice = 0;
 
 	do {
@@ -44,7 +71,7 @@ void south(bool& hasKilledMonster, int& playerHP) {
 			break;
 
 		case 3:
-			crossRoad(hasKilledMonster, playerHP);
+			crossRoad(hasKilledMonster, playerHP, riversideCount);
 			break;
 
 		default:
@@ -56,7 +83,7 @@ void south(bool& hasKilledMonster, int& playerHP) {
 		exit(0);
 }
 
-void crossRoad(bool& hasKilledMonster, int& playerHP) {
+void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 	int choice = 0;
 
 	cout << "You are at the crossroad. If you go South, you'll be at the town's gate." << endl;
@@ -77,6 +104,7 @@ void crossRoad(bool& hasKilledMonster, int& playerHP) {
 
 	case 1:
 		cout << "North" << endl;
+		north(hasKilledMonster, playerHP, riversideCount);
 		break;
 
 	case 2:
@@ -85,7 +113,7 @@ void crossRoad(bool& hasKilledMonster, int& playerHP) {
 
 	case 3:
 		cout << "South" << endl;
-		south(hasKilledMonster, playerHP);
+		south(hasKilledMonster, playerHP, riversideCount);
 		break;
 
 	case 4:
@@ -105,6 +133,6 @@ int main() {
 	bool hasKilledMonster = false;
 	string weapons[5][5] = { {"Knife", "Taken"}, {"Sword", "Not Taken"}, {"Mace", "Not Taken"}, {"Axe", "Not Taken"}, {"Arrow", "Not Taken"} };
 
-	crossRoad(hasKilledMonster, playerHP);
+	crossRoad(hasKilledMonster, playerHP, riversideCount);
 	return 0;
 }
