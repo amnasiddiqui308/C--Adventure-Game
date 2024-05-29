@@ -2,9 +2,31 @@
 #include<string>
 using namespace std;
 
-void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount);
+void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5]);
 
-void north(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
+void east(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5]) {
+	char choice = 0;
+
+	if (weapons[1][1] == "Taken") {
+		cout << "You have already obtained the Sword. No more weapons here." << endl;
+	}
+
+	else {
+		cout << "You walked into a forest and found a Long Sword!\nCONGRATULATIONS!" << endl;
+		weapons[1][1] = "Taken";
+	}
+
+	cout << "Press any key to continue" << endl;
+	cout << "'PRESS 0 TO EXIT'" << endl;
+
+	cin >> choice;
+	if (choice == '0')
+		exit(0);
+	else
+		crossRoad(hasKilledMonster, playerHP, riversideCount, weapons);
+}
+
+void north(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5]) {
 	char choice = 0;
 
 	if (riversideCount <= 0) {
@@ -14,24 +36,25 @@ void north(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 	else {
 		cout << "There is a River\nYou drink water and rest at the riverside." << endl;
 		cout << "Your HP is recovered by 2." << endl;
-		cout << "------------------------------------------------------------------------" << endl;
 		playerHP += 2;
 		riversideCount -= 1;
+
+		cout << "Your total HP is now: " << playerHP << endl;
+		cout << "------------------------------------------------------------------------" << endl;
 	}
 
 	cout << "Press any key to continue" << endl;
-	cout << "PRESS 0 TO EXIT" << endl;
+	cout << "'PRESS 0 TO EXIT'" << endl;
 
 	cin >> choice;
-	//cout << choice << endl;
 
 	if (choice == '0')
 		exit(0);
 	else
-		crossRoad(hasKilledMonster, playerHP, riversideCount);
+		crossRoad(hasKilledMonster, playerHP, riversideCount, weapons);
 }
 
-void south(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
+void south(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5]) {
 	int choice = 0;
 
 	do {
@@ -40,7 +63,7 @@ void south(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 		cout << "1. Talk to the Guard" << endl;
 		cout << "2. Attack the Guard" << endl;
 		cout << "3. Leave" << endl;
-		cout << "PRESS 0 TO EXIT" << endl;
+		cout << "'PRESS 0 TO EXIT'" << endl;
 
 		cin >> choice;
 
@@ -62,16 +85,21 @@ void south(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 		case 2:
 			cout << "Hey don't be Stupid!" << endl;
 			cout << "------------------------------------------------------------------------" << endl;
-			cout << "The guard fought back and hit you hard.\nYou received 3 damage" << endl;
+			cout << "The guard fought back and hit you hard.\nYou received 3 damages." << endl;
 			playerHP -= 3;
 
-			if (playerHP <= 0)
+			if(playerHP > 0)
+				cout << "Your total HP is now: " << playerHP << endl;
+
+			else {
+				cout << "\nYOU DIED!" << endl;
 				exit(0);
+			}
 
 			break;
 
 		case 3:
-			crossRoad(hasKilledMonster, playerHP, riversideCount);
+			crossRoad(hasKilledMonster, playerHP, riversideCount, weapons);
 			break;
 
 		default:
@@ -83,7 +111,7 @@ void south(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 		exit(0);
 }
 
-void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
+void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5]) {
 	int choice = 0;
 
 	cout << "You are at the crossroad. If you go South, you'll be at the town's gate." << endl;
@@ -94,7 +122,7 @@ void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 	cout << "4. Go West" << endl;
 	cout << "--------------------------------------------------------------------------" << endl;
 	cout << "Enter Your Choice" << endl;
-	cout << "PRESS 0 TO EXIT" << endl;
+	cout << "'PRESS 0 TO EXIT'" << endl;
 
 	cin >> choice;
 
@@ -104,16 +132,17 @@ void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount) {
 
 	case 1:
 		cout << "North" << endl;
-		north(hasKilledMonster, playerHP, riversideCount);
+		north(hasKilledMonster, playerHP, riversideCount, weapons);
 		break;
 
 	case 2:
 		cout << "East" << endl;
+		east(hasKilledMonster, playerHP, riversideCount, weapons);
 		break;
 
 	case 3:
 		cout << "South" << endl;
-		south(hasKilledMonster, playerHP, riversideCount);
+		south(hasKilledMonster, playerHP, riversideCount, weapons);
 		break;
 
 	case 4:
@@ -133,6 +162,6 @@ int main() {
 	bool hasKilledMonster = false;
 	string weapons[5][5] = { {"Knife", "Taken"}, {"Sword", "Not Taken"}, {"Mace", "Not Taken"}, {"Axe", "Not Taken"}, {"Arrow", "Not Taken"} };
 
-	crossRoad(hasKilledMonster, playerHP, riversideCount);
+	crossRoad(hasKilledMonster, playerHP, riversideCount, weapons);
 	return 0;
 }
