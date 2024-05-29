@@ -252,22 +252,22 @@ void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, strin
 		break;
 
 	case 1:
-		cout << "North" << endl;
+		cout << "At North" << endl;
 		north(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 		break;
 
 	case 2:
-		cout << "East" << endl;
+		cout << "At East" << endl;
 		east(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 		break;
 
 	case 3:
-		cout << "South" << endl;
+		cout << "At South" << endl;
 		south(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 		break;
 
 	case 4:
-		cout << "West" << endl;
+		cout << "At West" << endl;
 		west(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 		break;
 
