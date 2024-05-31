@@ -7,6 +7,74 @@ using namespace std;
 
 void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP);
 
+//input validation being used in fightingMonster function
+void inputValidation1(char& giveDamage) {
+	cout << "Press x to give damage to the monster" << endl;
+	cout << "'PRESS 0 TO EXIT'" << endl;
+	cin >> giveDamage;
+
+	if (giveDamage == 'x')
+		return;
+
+	else if (giveDamage == '0')
+		exit(0);
+
+	cout << "INVALID KEY PRESSED!" << endl;
+	inputValidation1(giveDamage);
+}
+
+//input validation being used in south
+void inputValidation2(char& choice, bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+	cout << "You are at the gate of the town. A Guard is standing in front of you." << endl;
+	cout << "------------------------------------------------------------------------" << endl;
+	cout << "1. Talk to the Guard" << endl;
+	cout << "2. Attack the Guard" << endl;
+	cout << "3. Leave" << endl;
+	cout << "'PRESS 0 TO EXIT'" << endl;
+
+	cin >> choice;
+
+	if (choice == '0')
+		exit(0);
+
+	else if (choice == '1') {
+		if (!hasKilledMonster) {
+			cout << "I have never seen you here before. You'll have to kill the Monster to get into the Town!" << endl;
+		}
+		else {
+			cout << "Oh you killed that Goblin!? Thankyou so much. You are a true hero!\nWelcome to our town" << endl;
+			cout << "YOU WON!\nCONGRATULATIONS!!" << endl;
+			exit(0);
+		}
+
+		inputValidation2(choice, hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
+	}
+
+	else if (choice == '2') {
+		cout << "Hey don't be Stupid!" << endl;
+		cout << "------------------------------------------------------------------------" << endl;
+		cout << "The guard fought back and hit you hard.\nYou received 3 damages." << endl;
+		playerHP -= 3;
+
+		if (playerHP > 0)
+			cout << "Your total HP is now: " << playerHP << endl;
+
+		else {
+			cout << "\nYOU DIED!" << endl;
+			exit(0);
+		}
+
+		inputValidation2(choice, hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
+	}
+
+	else if (choice == '3') {
+		crossRoad(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
+	}
+
+	cout << "INVALID CHOICE" << endl;
+	inputValidation2(choice, hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
+}
+
 void fightingMonster(int& playerHP, int& monsterHP, char& giveDamage, int& weapon, int& previousHP, double& monsterDamageFactor) {
 	if (playerHP <= 0 || monsterHP <= 0)
 		return;
@@ -16,18 +84,7 @@ void fightingMonster(int& playerHP, int& monsterHP, char& giveDamage, int& weapo
 	cout << "The monster's HP is: " << monsterHP << "\nYour HP is: " << playerHP << endl;
 	
 	//input validation
-	do {
-		cout << "Press x to give damage to the monster" << endl;
-		cout << "'PRESS 0 TO EXIT'" << endl;
-		cin >> giveDamage;
-
-		if (giveDamage == '0') 
-			exit(0);
-	
-		if (giveDamage != 'x') 
-			cout << "INVALID KEY PRESSED!" << endl;
-		
-	} while (giveDamage != 'x');
+	inputValidation1(giveDamage);
 
 	if (weapon == 1) {
 		monsterHP = monsterHP - (rand() % 5 + 1);
@@ -176,60 +233,9 @@ void north(bool& hasKilledMonster, int& playerHP, int& riversideCount, string we
 }
 
 void south(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
-	int choice = 0;
+	char choice = 0;
 
-	do {
-		cout << "You are at the gate of the town. A Guard is standing in front of you." << endl;
-		cout << "------------------------------------------------------------------------" << endl;
-		cout << "1. Talk to the Guard" << endl;
-		cout << "2. Attack the Guard" << endl;
-		cout << "3. Leave" << endl;
-		cout << "'PRESS 0 TO EXIT'" << endl;
-
-		cin >> choice;
-
-		switch (choice) {
-		case 0:
-			break;
-
-		case 1:
-			if (!hasKilledMonster) {
-				cout << "I have never seen you here before. You'll have to kill the Monster to get into the Town!" << endl;
-			}
-			else {
-				cout << "Oh you killed that Goblin!? Thankyou so much. You are a true hero!\nWelcome to our town" << endl;
-				//proceed to level2
-			}
-				
-			break;
-
-		case 2:
-			cout << "Hey don't be Stupid!" << endl;
-			cout << "------------------------------------------------------------------------" << endl;
-			cout << "The guard fought back and hit you hard.\nYou received 3 damages." << endl;
-			playerHP -= 3;
-
-			if(playerHP > 0)
-				cout << "Your total HP is now: " << playerHP << endl;
-
-			else {
-				cout << "\nYOU DIED!" << endl;
-				exit(0);
-			}
-
-			break;
-
-		case 3:
-			crossRoad(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
-			break;
-
-		default:
-			cout << "INVALID CHOICE<" << endl;
-		}
-	} while (choice != 0);
-	
-	if (!choice)
-		exit(0);
+	inputValidation2(choice, hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 }
 
 void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
