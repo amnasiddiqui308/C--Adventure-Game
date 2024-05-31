@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP);
+void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP);
 
 //input validation being used in fightingMonster function
 void inputValidation1(char& giveDamage) {
@@ -24,7 +24,7 @@ void inputValidation1(char& giveDamage) {
 }
 
 //input validation being used in south
-void inputValidation2(char& choice, bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+void inputValidation2(char& choice, bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP) {
 	cout << "You are at the gate of the town. A Guard is standing in front of you." << endl;
 	cout << "------------------------------------------------------------------------" << endl;
 	cout << "1. Talk to the Guard" << endl;
@@ -116,7 +116,7 @@ void fightingMonster(int& playerHP, int& monsterHP, char& giveDamage, int& weapo
 	fightingMonster(playerHP, monsterHP, giveDamage, weapon, previousHP, monsterDamageFactor);
 }
 
-void west(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+void west(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP) {
 	int choice = -1, weapon = 1, previousHP = monsterHP;
 	double monsterDamageFactor = 0.0;
 	char giveDamage = 0, option = 0;
@@ -182,7 +182,7 @@ void west(bool& hasKilledMonster, int& playerHP, int& riversideCount, string wea
 	crossRoad(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 }
 
-void east(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+void east(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP) {
 	char choice = 0;
 
 	if (weapons[1][1] == "Taken") {
@@ -204,7 +204,7 @@ void east(bool& hasKilledMonster, int& playerHP, int& riversideCount, string wea
 		crossRoad(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 }
 
-void north(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+void north(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP) {
 	char choice = 0;
 
 	if (riversideCount <= 0) {
@@ -232,13 +232,13 @@ void north(bool& hasKilledMonster, int& playerHP, int& riversideCount, string we
 		crossRoad(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 }
 
-void south(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+void south(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP) {
 	char choice = 0;
 
 	inputValidation2(choice, hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 }
 
-void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][5], int& monsterHP) {
+void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, string weapons[][2], int& monsterHP) {
 	int choice = 0;
 
 	cout << "You are at the crossroad. If you go South, you'll be at the town's gate." << endl;
@@ -288,7 +288,7 @@ void crossRoad(bool& hasKilledMonster, int& playerHP, int& riversideCount, strin
 int main() {
 	int playerHP = 15, monsterHP = 20, riversideCount = 3;
 	bool hasKilledMonster = false;
-	string weapons[5][5] = { {"Knife", "Taken"}, {"Sword", "Not Taken"}, {"Mace", "Not Taken"}, {"Axe", "Not Taken"}, {"Arrow", "Not Taken"} };
+	string weapons[2][2] = { {"Knife", "Taken"}, {"Sword", "Not Taken"}};
 
 	crossRoad(hasKilledMonster, playerHP, riversideCount, weapons, monsterHP);
 	return 0;
